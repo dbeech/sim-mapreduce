@@ -4,7 +4,7 @@ Sim MapReduce
 Experience the hair-raising, white-knuckle, thrills, spills* and excitement of [Apache Hadoop MapReduce](http://hadoop.apache.org/)  without the inconvenience of setting up a cluster of your own. (\* no pun intended)
 
 ```
-Usage: ./mapreduce.sh [level] (default="beginner")
+Usage: ./simmapreduce.sh [level] (default="beginner")
 ```
 
 * Test your **patience** and **boredom threshold** to the limit with the configurable BIG DATA level. Choose between "beginner", "intermediate" and "expert" for an increasingly realistic MapReduce experience. 
