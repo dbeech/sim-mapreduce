@@ -1,0 +1,102 @@
+<html>
+<head>
+<title>Sim MapReduce</title>
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="date.js"></script>
+<script type="text/javascript">
+ 
+  function log(msg) {
+    var term = $("pre"); 
+    term.html(term.html() + Date.now().toString("yy/MM/dd hh:mm:ss") + " " + msg + "\n");
+    $('html, body').animate({scrollTop: $(document).height()}, 0);
+  }
+
+  function generateJobId() {
+    return "job_" + Date.now().toString("yyyyMMddmmhh") + "_1234";
+  }
+
+  function generatePaths() {
+    return 100;
+  }
+
+  function randomMeaninglessBigDataNumber() {
+    return Math.floor((Math.random()*32768)+1) * 
+      Math.floor((Math.random()*32768)+1) * Math.floor((Math.random()*32768)+1);
+  }
+
+  function mrDelay(map, red) {
+    var delay = 2 + Math.floor((Math.random()*2)+1);
+    if (red > 98)
+      delay *= 10;
+    return delay * 1000;
+  }
+
+  function run() {
+    setTimeout(function() {
+     var o = queue.shift();
+     log(o.msg);
+     if (queue.length > 0) {
+       delay = o.delay;
+       run();
+     }
+    }, delay);
+  }
+
+  var queue = [];
+
+  $(function(){
+    var jobId = generateJobId();
+    var paths = generatePaths();
+    delay=0;
+    queue.push({msg:"WARN snappy.LoadSnappy: Snappy native library is available",delay:0});
+    queue.push({msg:"INFO util.NativeCodeLoader: Loaded the native-hadoop library",delay:0});
+    queue.push({msg:"INFO snappy.LoadSnappy: Snappy native library loaded",delay:3000});
+    queue.push({msg:"INFO mapred.FileInputFormat: Total input paths to process : " + paths,delay:5000});
+    queue.push({msg:"INFO mapred.JobClient: Running job " + jobId,delay:0});
+    var map = 0, red = 0;
+    while (map + red <= 200) {
+      queue.push({msg:"INFO mapred.JobClient:  map " + map + "% reduce " + red + "%", delay: mrDelay()});
+      if (map < 100) { map++ } else { red++ }
+    }
+    queue.push({msg:"INFO mapred.JobClient: Job complete: " + jobId,delay:0});
+    queue.push({msg:"INFO mapred.JobClient:  Counters: 25",delay:0});
+    queue.push({msg:"INFO mapred.JobClient:   Job Counters",delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     Launched reduce tasks=10",delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     SLOTS_MILLIS_MAPS=35359",delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     Total time spent by all reduces waiting after reserving slots (ms)=0",delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     Total time spent by all maps waiting after reserving slots (ms)=0",delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     Launched map tasks=" + paths,delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     SLOTS_MILLIS_REDUCES=" + randomMeaninglessBigDataNumber(),delay:0});
+    queue.push({msg:"INFO mapred.JobClient:   FileSystemCounters",delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     FILE_BYTES_READ=" + randomMeaninglessBigDataNumber(),delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     HDFS_BYTES_READ=" + randomMeaninglessBigDataNumber(),delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     FILE_BYTES_WRITTEN=" + randomMeaninglessBigDataNumber(),delay:0});
+    queue.push({msg:"INFO mapred.JobClient:   Map-Reduce Framework",delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     Map input records=" + randomMeaninglessBigDataNumber(),delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     Reduce shuffle bytes=" + randomMeaninglessBigDataNumber(),delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     Spilled Records=600",delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     Map output bytes=" + randomMeaninglessBigDataNumber(),delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     CPU time spent (ms)=31700",delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     Total committed heap usage (bytes)" + randomMeaninglessBigDataNumber(),delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     Map input bytes=" + randomMeaninglessBigDataNumber(),delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     Combine input records=" + randomMeaninglessBigDataNumber(),delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     SPLIT_RAW_BYTES=" + randomMeaninglessBigDataNumber(),delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     Reduce input records=" + randomMeaninglessBigDataNumber(),delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     Reduce input groups=" + randomMeaninglessBigDataNumber(),delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     Combine output records=" + randomMeaninglessBigDataNumber(),delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     Physical memory (bytes) snapshot=" + randomMeaninglessBigDataNumber(),delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     Reduce output records=" + randomMeaninglessBigDataNumber(),delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     Virtual memory (bytes) snapshot=" + randomMeaninglessBigDataNumber(),delay:0});
+    queue.push({msg:"INFO mapred.JobClient:     Map output records=" + randomMeaninglessBigDataNumber(),delay:0});
+    run();
+  });
+</script>
+<style type="text/css">
+  body { background: black }
+  pre {color: #ccc }
+</style>
+</head>
+<body>
+<pre></pre>
+</body>
+</html>
