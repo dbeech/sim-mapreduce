@@ -7,16 +7,16 @@
  
   function log(msg) {
     var term = $("pre"); 
-    term.html(term.html() + Date.now().toString("yy/MM/dd hh:mm:ss") + " " + msg + "\n");
+    term.html(term.html() + Date.now().toString("yy/MM/dd HH:mm:ss") + " " + msg + "\n");
     $('html, body').animate({scrollTop: $(document).height()}, 0);
   }
 
   function generateJobId() {
-    return "job_" + Date.now().toString("yyyyMMddmmhh") + "_1234";
+    return "job_" + Date.now().toString("yyyyMMddHHmm") + "_1234";
   }
 
   function generatePaths() {
-    return 100;
+    return Math.floor((Math.random()*1000)+200);
   }
 
   function randomMeaninglessBigDataNumber() {
